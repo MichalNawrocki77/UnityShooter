@@ -8,21 +8,18 @@ using UnityEngine.InputSystem;
 public class InputHandler
 {
     Player player;
-    Rigidbody rb;
 
     float rotationX;
     float rotationY;
 
+    Vector3 movementVector;
+
     Vector2 cameraInput;
     Vector2 playerMovementVector2;
-    public InputHandler(Player player, Rigidbody rb)
+    public InputHandler(Player player)
     {
         this.player = player;
-        this.rb = rb;
     }
-
-    
-
 
     #region Camera
     public void CameraMovementAction_performed(InputAction.CallbackContext obj)
@@ -52,16 +49,26 @@ public class InputHandler
     }
     public void PlayerMovement()
     {
-        rb.AddForce(player.transform.forward * playerMovementVector2.y * player.speed, ForceMode.Acceleration);
-        rb.AddForce(player.transform.right * playerMovementVector2.x * player.speed, ForceMode.Acceleration);
+        if (player.isGrounded) 
+        {
+            movementVector = player.transform.forward * playerMovementVector2.y + player.transform.right * playerMovementVector2.x;
+            movementVector *= player.speed * player.speedMultiplier;
+        }
+        else
+        {
+            movementVector = player.transform.forward * playerMovementVector2.y + player.transform.right * playerMovementVector2.x;
+            movementVector *= player.speed * player.speedMultiplier * player.inAirSpeedMultiplier;
+        }
+
+
+        player.rb.AddForce(movementVector, ForceMode.Force);
     }
     #endregion
 
     #region Jump
     public void JumpAction_performed(InputAction.CallbackContext obj)
     {
-        Debug.Log("JumpAction_performed() called");
-        rb.AddForce(Vector3.up * 4, ForceMode.Impulse);
+        player.rb.AddForce(Vector3.up * player.jumpForce, ForceMode.Impulse);
     }
     #endregion
 }
