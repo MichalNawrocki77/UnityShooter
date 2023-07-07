@@ -45,7 +45,7 @@ public class Player : MonoBehaviour
         playerInputActions.PlayerMap.Enable();
         playerInputActions.PlayerMap.JumpAction.performed += inputHandler.JumpAction_performed;
         playerInputActions.PlayerMap.MovementAction.performed += inputHandler.MovementAction_performed;
-        playerInputActions.PlayerMap.CameraMovementAction.performed += inputHandler.CameraMovementAction_performed;        
+        playerInputActions.PlayerMap.CameraMovementAction.performed += inputHandler.CameraMovementAction_performed;
     }
 
     private void Start()

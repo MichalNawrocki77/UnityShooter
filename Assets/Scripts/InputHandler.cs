@@ -29,8 +29,8 @@ public class InputHandler
     public void CameraRotation()
     {
 
-        float mouseX = cameraInput.x * Time.deltaTime * player.mouseSensitivity;
-        float mouseY = cameraInput.y * Time.deltaTime * player.mouseSensitivity;
+        float mouseX = cameraInput.x * Time.fixedDeltaTime * player.mouseSensitivity;
+        float mouseY = cameraInput.y * Time.fixedDeltaTime * player.mouseSensitivity;
 
         rotationX += mouseY;
         rotationY += mouseX;
@@ -68,7 +68,10 @@ public class InputHandler
     #region Jump
     public void JumpAction_performed(InputAction.CallbackContext obj)
     {
-        player.rb.AddForce(Vector3.up * player.jumpForce, ForceMode.Impulse);
+        if (player.isGrounded)
+        {
+            player.rb.AddForce(Vector3.up * player.jumpForce, ForceMode.Impulse);
+        }
     }
     #endregion
 }
