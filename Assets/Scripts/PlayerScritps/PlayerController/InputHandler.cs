@@ -29,8 +29,8 @@ public class InputHandler
     public void CameraRotation()
     {
 
-        float mouseX = cameraInput.x * Time.fixedDeltaTime * player.mouseSensitivity;
-        float mouseY = cameraInput.y * Time.fixedDeltaTime * player.mouseSensitivity;
+        float mouseX = cameraInput.x * Time.fixedDeltaTime * player.MouseSensitivity;
+        float mouseY = cameraInput.y * Time.fixedDeltaTime * player.MouseSensitivity;
 
         rotationX += mouseY;
         rotationY += mouseX;
@@ -38,7 +38,7 @@ public class InputHandler
         rotationX = Mathf.Clamp(rotationX, -90f, 90f);
 
         player.transform.rotation = Quaternion.Euler(0f, rotationY, 0f);
-        player.cameraHolder.localRotation = Quaternion.Euler(rotationX, 0f, 0f);
+        player.CameraHolder.localRotation = Quaternion.Euler(rotationX, 0f, 0f);
     }
     #endregion
 
@@ -46,31 +46,30 @@ public class InputHandler
     public void MovementAction_performed(InputAction.CallbackContext obj)
     {
         playerMovementVector2 = obj.ReadValue<Vector2>();
+        
     }
-    public void PlayerMovement()
+    public void PlayerMovementOnGround()
     {
-        if (player.isGrounded) 
-        {
-            movementVector = player.transform.forward * playerMovementVector2.y + player.transform.right * playerMovementVector2.x;
-            movementVector *= player.speed * player.speedMultiplier;
-        }
-        else
-        {
-            movementVector = player.transform.forward * playerMovementVector2.y + player.transform.right * playerMovementVector2.x;
-            movementVector *= player.speed * player.speedMultiplier * player.inAirSpeedMultiplier;
-        }
+        movementVector = player.transform.forward * playerMovementVector2.y + player.transform.right * playerMovementVector2.x;
+        movementVector *= player.Speed * player.SpeedMultiplier;
 
+        player.Rb.AddForce(movementVector, ForceMode.Force);
+    }
+    public void PlayerMovementInAir()
+    {
+        movementVector = player.transform.forward * playerMovementVector2.y + player.transform.right * playerMovementVector2.x;
+        movementVector *= player.Speed * player.SpeedMultiplier * player.InAirSpeedMultiplier;   
 
-        player.rb.AddForce(movementVector, ForceMode.Force);
+        player.Rb.AddForce(movementVector, ForceMode.Force);
     }
     #endregion
 
     #region Jump
     public void JumpAction_performed(InputAction.CallbackContext obj)
     {
-        if (player.isGrounded)
+        if (player.IsGrounded)
         {
-            player.rb.AddForce(Vector3.up * player.jumpForce, ForceMode.Impulse);
+            player.Rb.AddForce(Vector3.up * player.JumpForce, ForceMode.Impulse);
         }
     }
     #endregion

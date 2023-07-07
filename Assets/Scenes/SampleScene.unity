@@ -1562,7 +1562,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2145240135}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.4155223, y: 0.96, z: 1.0171314}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1582,16 +1582,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fed5457ffd2a0a4479ac4f9c724ca2d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 2145240136}
   cameraHolder: {fileID: 921257302}
-  speed: 7
-  speedMultiplier: 20
+  speed: 8
+  speedMultiplier: 10
   mouseSensitivity: 25
-  isGrounded: 0
-  groundDrag: 10
+  groundDrag: 3
   playerHeight: 2
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 64
   inAirSpeedMultiplier: 0.15
-  jumpForce: 10
+  jumpForce: 7
