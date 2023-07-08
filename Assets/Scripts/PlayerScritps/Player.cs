@@ -9,11 +9,10 @@ using UnityEngine.InputSystem.Users;
 
 public class Player : MonoBehaviour
 {
-    public Rigidbody Rb { get; private set; }
-
+    public  Rigidbody Rb { get; private set; }
+    public Collider Collider { get; private set; }
     public InputHandler InputHandler { get; private set; }
-
-    PlayerInputActions playerInputActions;
+    public PlayerInputActions PlayerInputActions { get; private set; }
 
     #region StateMachine
     public PlayerStateMachine StateMachine { get { return stateMachine; } }
@@ -43,7 +42,7 @@ public class Player : MonoBehaviour
     #region drag
 
     //IsGrounded is a property so that it doesn't show in the inspector
-    public bool IsGrounded { get; set; }
+    public bool IsGrounded { get; private set; }
 
     public float GroundDrag { get { return groundDrag; } }
     [SerializeField] float groundDrag;
@@ -71,22 +70,20 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         Rb = GetComponent<Rigidbody>();
+        Collider = GetComponent<Collider>();
+        InputHandler = new InputHandler(this);
+        PlayerInputActions = new PlayerInputActions();
 
         stateMachine = new PlayerStateMachine();
         walkState = new PlayerWalkState(this, stateMachine);
         aerialState = new PlayerInAirState(this, stateMachine);
         stateMachine.Initialize(walkState);
 
-        InputHandler = new InputHandler(this);
-        playerInputActions = new PlayerInputActions();
-        playerInputActions.PlayerMap.Enable();
-        playerInputActions.PlayerMap.JumpAction.performed += InputHandler.JumpAction_performed;
-        playerInputActions.PlayerMap.MovementAction.performed += InputHandler.MovementAction_performed;
-        playerInputActions.PlayerMap.CameraMovementAction.performed += InputHandler.CameraMovementAction_performed;
-
         
+        PlayerInputActions.PlayerMap.Enable();
+        PlayerInputActions.PlayerMap.MovementAction.performed += InputHandler.MovementAction_performed;
+        PlayerInputActions.PlayerMap.CameraMovementAction.performed += InputHandler.CameraMovementAction_performed;
     }
-
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -94,10 +91,14 @@ public class Player : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        CheckForGround();
         stateMachine.currentState.PhysicsUpdate();
         SpeedControl();
     }
-    
+    public void CheckForGround()
+    {
+        IsGrounded = Physics.Raycast(transform.position, Vector3.down, Collider.bounds.extents.y + 0.2f, GroundLayerMask);
+    }
 
     void SpeedControl()
     {

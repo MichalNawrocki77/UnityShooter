@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class PlayerInAirState : PlayerState
 {
-    public PlayerInAirState(Player player, PlayerStateMachine playerStateMachine) : base(player, playerStateMachine) { }
+    public PlayerInAirState(Player player, PlayerStateMachine playerStateMachine) : base(player, playerStateMachine)
+    {
+
+    }
 
     public override void Enter()
     {
@@ -23,14 +26,9 @@ public class PlayerInAirState : PlayerState
 
     public override void PhysicsUpdate()
     {
-        player.InputHandler.PlayerMovementInAir();
-        player.InputHandler.CameraRotation();
-        CheckIfGrounded();
         CheckForStateChange();
-    }
-    public void CheckIfGrounded()
-    {
-        player.IsGrounded = Physics.Raycast(player.transform.position, Vector3.down, player.PlayerHeight * 0.5f + 0.2f, player.GroundLayerMask);
+        player.InputHandler.PlayerMovementInAir();
+        player.InputHandler.CameraRotation();        
     }
     public void CheckForStateChange()
     {

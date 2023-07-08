@@ -10,11 +10,12 @@ public class PlayerWalkState : PlayerState
     public override void Enter()
     {
         player.Rb.drag = player.GroundDrag;
+        player.PlayerInputActions.PlayerMap.JumpAction.performed += player.InputHandler.JumpAction_performed;
     }
 
     public override void Exit()
     {
-        
+        player.PlayerInputActions.PlayerMap.JumpAction.performed -= player.InputHandler.JumpAction_performed;
     }
 
     public override void LogicUpdate()
@@ -24,24 +25,15 @@ public class PlayerWalkState : PlayerState
 
     public override void PhysicsUpdate()
     {
+        CheckForStateChange();
         player.InputHandler.PlayerMovementOnGround();
         player.InputHandler.CameraRotation();
-        CheckIfGrounded();
-        CheckForStateChange();
-    }
-    public void CheckIfGrounded()
-    {
-        player.IsGrounded = Physics.Raycast(player.transform.position, Vector3.down, player.PlayerHeight * 0.5f + 0.2f, player.GroundLayerMask);
     }
     void CheckForStateChange()
     {
-        if (!player.IsGrounded)
+        if (player.IsGrounded)
         {
             player.StateMachine.ChangeState(player.AerialState);
         }
-    }
-    public void JumpAction_performed(InputAction.CallbackContext obj)
-    {
-        player.Rb.AddForce(Vector3.up * player.JumpForce, ForceMode.Impulse);
     }
 }
