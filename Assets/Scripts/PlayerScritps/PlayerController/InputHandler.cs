@@ -67,10 +67,11 @@ public class InputHandler
     #region Jump
     public void JumpAction_performed(InputAction.CallbackContext obj)
     {
-        if (player.IsGrounded)
-        {
-            player.Rb.AddForce(Vector3.up * player.JumpForce, ForceMode.Impulse);
-        }
+        player.Rb.AddForce(Vector3.up * player.JumpForce, ForceMode.Impulse);
+        //if (player.IsGrounded)
+        //{
+            
+        //}
     }
     #endregion
 }

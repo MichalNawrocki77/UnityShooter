@@ -10,12 +10,12 @@ public class PlayerWalkState : PlayerState
     public override void Enter()
     {
         player.Rb.drag = player.GroundDrag;
-        player.PlayerInputActions.PlayerMap.JumpAction.performed += player.InputHandler.JumpAction_performed;
+        player.PlayerInputActions.PlayerMap.JumpAction.Enable();
     }
 
     public override void Exit()
     {
-        player.PlayerInputActions.PlayerMap.JumpAction.performed -= player.InputHandler.JumpAction_performed;
+        player.PlayerInputActions.PlayerMap.JumpAction.Disable();
     }
 
     public override void LogicUpdate()

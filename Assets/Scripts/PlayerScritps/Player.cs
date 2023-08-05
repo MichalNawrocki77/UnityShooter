@@ -77,15 +77,16 @@ public class Player : MonoBehaviour
         stateMachine = new PlayerStateMachine();
         walkState = new PlayerWalkState(this, stateMachine);
         aerialState = new PlayerInAirState(this, stateMachine);
-        stateMachine.Initialize(walkState);
-
-        
-        PlayerInputActions.PlayerMap.Enable();
-        PlayerInputActions.PlayerMap.MovementAction.performed += InputHandler.MovementAction_performed;
-        PlayerInputActions.PlayerMap.CameraMovementAction.performed += InputHandler.CameraMovementAction_performed;
     }
     private void Start()
     {
+        PlayerInputActions.PlayerMap.Enable();
+        PlayerInputActions.PlayerMap.MovementAction.performed += InputHandler.MovementAction_performed;
+        PlayerInputActions.PlayerMap.CameraMovementAction.performed += InputHandler.CameraMovementAction_performed;
+        PlayerInputActions.PlayerMap.JumpAction.performed += InputHandler.JumpAction_performed;
+
+        stateMachine.Initialize(walkState);
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible= false;
     }
@@ -97,7 +98,9 @@ public class Player : MonoBehaviour
     }
     public void CheckForGround()
     {
-        IsGrounded = Physics.Raycast(transform.position, Vector3.down, Collider.bounds.extents.y + 0.2f, GroundLayerMask);
+        IsGrounded = Physics.Raycast(transform.position, Vector3.down, Collider.bounds.extents.y + 0.5f, GroundLayerMask);
+        Debug.DrawRay(transform.position, Vector3.down * (Collider.bounds.extents.y+0.5f),Color.red);
+        Debug.Log(IsGrounded);
     }
 
     void SpeedControl()
