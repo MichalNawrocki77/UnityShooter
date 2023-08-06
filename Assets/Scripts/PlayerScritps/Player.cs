@@ -99,7 +99,7 @@ public class Player : MonoBehaviour
     public void CheckForGround()
     {
         IsGrounded = Physics.Raycast(transform.position, Vector3.down, Collider.bounds.extents.y + 0.5f, GroundLayerMask);
-        Debug.DrawRay(transform.position, Vector3.down * (Collider.bounds.extents.y+0.5f),Color.red);
+        Debug.DrawRay(transform.position, Vector3.down * (Collider.bounds.extents.y+0.2f),Color.red);
         Debug.Log(IsGrounded);
     }
 
