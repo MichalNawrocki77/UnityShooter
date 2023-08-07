@@ -28,8 +28,8 @@ public class Player : MonoBehaviour
     public Transform CameraHolder { get { return cameraHolder; } }
     [SerializeField] Transform cameraHolder;
 
-    public float Speed { get { return speed; } }
-    [SerializeField] float speed;
+    public float MaxSpeed { get { return maxSpeed; } }
+    [SerializeField] float maxSpeed;
 
     public float SpeedMultiplier { get { return speedMultiplier; } }
     [SerializeField] float speedMultiplier;
@@ -65,12 +65,21 @@ public class Player : MonoBehaviour
 
     #endregion
 
+    #region Animations
+
+    Animator animator;
+    string velocityHorizontalString = "VelocityHorizontal";
+    string velocityVerticalString = "VelocityVertical";
+
+    #endregion
+
 
 
     private void Awake()
     {
         Rb = GetComponent<Rigidbody>();
         Collider = GetComponent<Collider>();
+        animator = GetComponent<Animator>();
         InputHandler = new InputHandler(this);
         PlayerInputActions = new PlayerInputActions();
 
@@ -88,7 +97,9 @@ public class Player : MonoBehaviour
         stateMachine.Initialize(walkState);
 
         Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible= false;
+        Cursor.visible = false;
+
+        //Debug.LogError("Implement animations control inside Player script i.e. modify Animator's VelocityVertical and VelocityHorizontal via code, by normalizing velocity.x and velocity.z and pass them to Animator.SetFloat()");
     }
     private void FixedUpdate()
     {
@@ -99,16 +110,28 @@ public class Player : MonoBehaviour
     public void CheckForGround()
     {
         IsGrounded = Physics.Raycast(transform.position, Vector3.down, Collider.bounds.extents.y + 0.5f, GroundLayerMask);
-        Debug.DrawRay(transform.position, Vector3.down * (Collider.bounds.extents.y+0.2f),Color.red);
-        Debug.Log(IsGrounded);
     }
 
     void SpeedControl()
     {
-        if(Rb.velocity.magnitude > Speed)
+        if (Rb.velocity.magnitude > MaxSpeed)
         {
-            Vector3 newVelocity = Rb.velocity.normalized * Speed;
+            Vector3 newVelocity = Rb.velocity.normalized * MaxSpeed;
             Rb.velocity = new Vector3(newVelocity.x, Rb.velocity.y, newVelocity.z);
         }
     }
+    public void UpdateAnimatorMovementFields()
+    {
+        Vector3 localVelocity =  transform.InverseTransformDirection(Rb.velocity);
+        float velocityVerticalValue = LinearNormalization(localVelocity.z,0,maxSpeed,0,1);
+        float velocityHorizontalValue = LinearNormalization(localVelocity.x,0,maxSpeed,0,1);
+
+        animator.SetFloat(velocityVerticalString, velocityVerticalValue);
+        animator.SetFloat(velocityHorizontalString, velocityHorizontalValue);
+    }
+    private float LinearNormalization(float num, float oldMin, float oldMax, float newMin, float newMax)
+    {
+        return (num-oldMin)/(oldMax-oldMin) * (newMax-newMin) + newMin;
+    }
+    
 }

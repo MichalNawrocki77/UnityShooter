@@ -51,14 +51,14 @@ public class InputHandler
     public void PlayerMovementOnGround()
     {
         movementVector = player.transform.forward * playerMovementVector2.y + player.transform.right * playerMovementVector2.x;
-        movementVector *= player.Speed * player.SpeedMultiplier;
+        movementVector *= player.MaxSpeed * player.SpeedMultiplier;
 
         player.Rb.AddForce(movementVector, ForceMode.Force);
     }
     public void PlayerMovementInAir()
     {
         movementVector = player.transform.forward * playerMovementVector2.y + player.transform.right * playerMovementVector2.x;
-        movementVector *= player.Speed * player.SpeedMultiplier * player.InAirSpeedMultiplier;   
+        movementVector *= player.MaxSpeed * player.SpeedMultiplier * player.InAirSpeedMultiplier;   
 
         player.Rb.AddForce(movementVector, ForceMode.Force);
     }

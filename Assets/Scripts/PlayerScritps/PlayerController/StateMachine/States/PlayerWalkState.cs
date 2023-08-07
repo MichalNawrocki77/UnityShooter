@@ -28,6 +28,7 @@ public class PlayerWalkState : PlayerState
         CheckForStateChange();
         player.InputHandler.PlayerMovementOnGround();
         player.InputHandler.CameraRotation();
+        player.UpdateAnimatorMovementFields();
     }
     void CheckForStateChange()
     {
