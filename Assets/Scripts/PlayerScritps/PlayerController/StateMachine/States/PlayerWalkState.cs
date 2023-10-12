@@ -20,19 +20,23 @@ public class PlayerWalkState : PlayerState
 
     public override void LogicUpdate()
     {
-        
+
+    }
+    public override void LateLogicUpdate()
+    {
+        base.LateLogicUpdate();
+        player.InputHandler.CameraRotation();
     }
 
     public override void PhysicsUpdate()
-    {
-        CheckForStateChange();
-        player.InputHandler.PlayerMovementOnGround();
-        player.InputHandler.CameraRotation();
+    {        
+        player.InputHandler.PlayerMovementOnGround();        
         player.UpdateAnimatorMovementFields();
+        CheckForStateChange();
     }
     void CheckForStateChange()
     {
-        if (player.IsGrounded)
+        if (!player.IsGrounded)
         {
             player.StateMachine.ChangeState(player.AerialState);
         }

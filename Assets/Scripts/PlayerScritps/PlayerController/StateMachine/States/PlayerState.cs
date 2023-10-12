@@ -14,5 +14,6 @@ public class PlayerState
     public virtual void Enter() { }
     public virtual void Exit() { }
     public virtual void LogicUpdate() { }
+    public virtual void LateLogicUpdate() { }
     public virtual void PhysicsUpdate() { }
 }

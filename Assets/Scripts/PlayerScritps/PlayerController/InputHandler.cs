@@ -29,8 +29,8 @@ public class InputHandler
     public void CameraRotation()
     {
 
-        float mouseX = cameraInput.x * Time.fixedDeltaTime * player.MouseSensitivity;
-        float mouseY = cameraInput.y * Time.fixedDeltaTime * player.MouseSensitivity;
+        float mouseX = cameraInput.x * Time.deltaTime * player.MouseSensitivity;
+        float mouseY = cameraInput.y * Time.deltaTime * player.MouseSensitivity;
 
         rotationX += mouseY;
         rotationY += mouseX;
@@ -45,29 +45,30 @@ public class InputHandler
     #region Movement
     public void MovementAction_performed(InputAction.CallbackContext obj)
     {
-        playerMovementVector2 = obj.ReadValue<Vector2>();
-        
+        playerMovementVector2 = obj.ReadValue<Vector2>();        
     }
     public void PlayerMovementOnGround()
     {
         movementVector = player.transform.forward * playerMovementVector2.y + player.transform.right * playerMovementVector2.x;
-        movementVector *= player.MaxSpeed * player.SpeedMultiplier;
+        movementVector *= player.MaxSpeed * player.Speed;
+        //movementVector *= player.Speed;
 
-        player.Rb.AddForce(movementVector, ForceMode.Force);
+        player.Rb.AddForce(movementVector, ForceMode.Acceleration);        
     }
     public void PlayerMovementInAir()
     {
         movementVector = player.transform.forward * playerMovementVector2.y + player.transform.right * playerMovementVector2.x;
-        movementVector *= player.MaxSpeed * player.SpeedMultiplier * player.InAirSpeedMultiplier;   
+        movementVector *= player.MaxSpeed * player.InAirSpeed;
+        //movementVector *= player.InAirSpeed;
 
-        player.Rb.AddForce(movementVector, ForceMode.Force);
+        player.Rb.AddForce(movementVector, ForceMode.Acceleration);
     }
     #endregion
 
     #region Jump
     public void JumpAction_performed(InputAction.CallbackContext obj)
     {
-        player.Rb.AddForce(Vector3.up * player.JumpForce, ForceMode.Impulse);
+        player.Rb.AddForce(Vector3.up * player.JumpForce * player.Rb.mass, ForceMode.Impulse);
         //if (player.IsGrounded)
         //{
             

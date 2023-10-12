@@ -23,12 +23,14 @@ public class PlayerInAirState : PlayerState
     {
         
     }
-
+    public override void LateLogicUpdate()
+    {
+        player.InputHandler.CameraRotation();
+    }
     public override void PhysicsUpdate()
     {
         CheckForStateChange();
-        player.InputHandler.PlayerMovementInAir();
-        player.InputHandler.CameraRotation();        
+        player.InputHandler.PlayerMovementInAir();             
     }
     public void CheckForStateChange()
     {
