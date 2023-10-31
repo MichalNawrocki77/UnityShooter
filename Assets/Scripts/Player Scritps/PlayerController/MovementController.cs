@@ -27,6 +27,7 @@ public class MovementController : MonoBehaviour
 
     [field: SerializeField] public float jumpForce { get; private set; }
 
+
     private void Awake()
     {
         GroundedStateMachine = new StateMachine();
