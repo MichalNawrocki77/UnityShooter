@@ -9,7 +9,7 @@ public class FollowTransform : MonoBehaviour
     [SerializeField] Transform transformToFollow;
     void Update()
     {
-        transform.localPosition = transformToFollow.position;
-        transform.localRotation = transformToFollow.rotation;
+        transform.position = transformToFollow.position;
+        transform.rotation = transformToFollow.rotation;
     }
 }
