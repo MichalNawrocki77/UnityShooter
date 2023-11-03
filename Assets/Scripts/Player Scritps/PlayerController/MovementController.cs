@@ -23,9 +23,11 @@ public class MovementController : MonoBehaviour
     [field: SerializeField] public float groundedDrag { get; private set; }
     [field: SerializeField] public float AerialDrag { get; private set; }
 
-    [SerializeField] private float maxSpeed;
+	[field: SerializeField] public float maxSpeed { get; private set; }
 
     [field: SerializeField] public float jumpForce { get; private set; }
+
+    public Vector3 CurrentXZVelocity { get; private set; }
 
 
     private void Awake()
@@ -74,11 +76,11 @@ public class MovementController : MonoBehaviour
     }
     void SpeedControl()
     {
-        Vector3 forwardSideVelocity = new Vector3(RbToMove.velocity.x,0f,RbToMove.velocity.z);
-        if(forwardSideVelocity.magnitude > maxSpeed)
+		CurrentXZVelocity = new Vector3(RbToMove.velocity.x,0f,RbToMove.velocity.z);
+        if(CurrentXZVelocity.magnitude > maxSpeed)
         {
-            forwardSideVelocity = forwardSideVelocity.normalized * maxSpeed;
-            RbToMove.velocity = new Vector3(forwardSideVelocity.x, RbToMove.velocity.y, forwardSideVelocity.z);
+			CurrentXZVelocity = CurrentXZVelocity.normalized * maxSpeed;
+            RbToMove.velocity = new Vector3(CurrentXZVelocity.x, RbToMove.velocity.y, CurrentXZVelocity.z);
         }
     }
     void GroundCheck()
