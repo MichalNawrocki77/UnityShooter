@@ -41,12 +41,14 @@ public class MovementController : MonoBehaviour
         {
             Debug.Log("CameraController Component Could not find IInputProvider. Please attach a component that inherits from IInputProvider interface :)");
         }
+        Input.OnJumpPressed += Jump;
 
         RbToMove = GetComponentInParent<Rigidbody>();
         if (RbToMove is null)
         {
             Debug.Log("CameraController could not find any rigidbody to move, please attach Rigidbody component on this GameObject first");
         }
+
         GroundedStateMachine.Initialize(GroundedState);
     }
 

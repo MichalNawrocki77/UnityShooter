@@ -7,7 +7,7 @@ using static UnityEngine.InputSystem.InputAction;
 
 public class PlayerInputProvider : MonoBehaviour, IInputProvider
 {
-    public PlayerInputActions PlayerInputActions { get; private set; }
+    private PlayerInputActions PlayerInputActions;
 
     public Vector2 MovementInput { get; private set; }
 
@@ -32,10 +32,21 @@ public class PlayerInputProvider : MonoBehaviour, IInputProvider
     {
         if(OnJumpPressed is null)
         {
-            Debug.Log("Null at PlayerInputProvider.OnJumpPressed !!!");
+            Debug.Log("Null at PlayerInputProvider.OnJumpPressed!!!");
             return;
         }
-        OnJumpPressed();
+        OnJumpPressed.Invoke();
+    }
+    public void SetJumpActionActive(bool isActive)
+    {
+        if (isActive)
+        {
+            PlayerInputActions.PlayerMap.JumpAction.Enable();
+        }
+        else if (!isActive)
+        {
+            PlayerInputActions.PlayerMap.JumpAction.Disable();
+        }
     }
 
     private void MovementAction_performed(CallbackContext obj)

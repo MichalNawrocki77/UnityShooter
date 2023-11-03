@@ -8,4 +8,5 @@ public interface IInputProvider
     public Vector2 MovementInput{ get; }
     public Vector2 CameraDeltaInput { get; }
     public event Action OnJumpPressed;
+    void SetJumpActionActive(bool isActive);
 }
