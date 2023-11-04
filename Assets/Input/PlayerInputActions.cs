@@ -53,6 +53,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ShootAction"",
+                    ""type"": ""Button"",
+                    ""id"": ""9d333016-e3ce-45e0-9e4a-f6cd18f34f66"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -165,6 +174,28 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""JumpAction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""99442e99-529f-4359-9d48-bfb632a81e45"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardAndMouse"",
+                    ""action"": ""ShootAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e58c563d-208a-41dc-b616-fc30f6a6130f"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""GamePad"",
+                    ""action"": ""ShootAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -204,6 +235,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_PlayerMap_MovementAction = m_PlayerMap.FindAction("MovementAction", throwIfNotFound: true);
         m_PlayerMap_CameraMovementAction = m_PlayerMap.FindAction("CameraMovementAction", throwIfNotFound: true);
         m_PlayerMap_JumpAction = m_PlayerMap.FindAction("JumpAction", throwIfNotFound: true);
+        m_PlayerMap_ShootAction = m_PlayerMap.FindAction("ShootAction", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -268,6 +300,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerMap_MovementAction;
     private readonly InputAction m_PlayerMap_CameraMovementAction;
     private readonly InputAction m_PlayerMap_JumpAction;
+    private readonly InputAction m_PlayerMap_ShootAction;
     public struct PlayerMapActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -275,6 +308,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @MovementAction => m_Wrapper.m_PlayerMap_MovementAction;
         public InputAction @CameraMovementAction => m_Wrapper.m_PlayerMap_CameraMovementAction;
         public InputAction @JumpAction => m_Wrapper.m_PlayerMap_JumpAction;
+        public InputAction @ShootAction => m_Wrapper.m_PlayerMap_ShootAction;
         public InputActionMap Get() { return m_Wrapper.m_PlayerMap; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -293,6 +327,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @JumpAction.started += instance.OnJumpAction;
             @JumpAction.performed += instance.OnJumpAction;
             @JumpAction.canceled += instance.OnJumpAction;
+            @ShootAction.started += instance.OnShootAction;
+            @ShootAction.performed += instance.OnShootAction;
+            @ShootAction.canceled += instance.OnShootAction;
         }
 
         private void UnregisterCallbacks(IPlayerMapActions instance)
@@ -306,6 +343,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @JumpAction.started -= instance.OnJumpAction;
             @JumpAction.performed -= instance.OnJumpAction;
             @JumpAction.canceled -= instance.OnJumpAction;
+            @ShootAction.started -= instance.OnShootAction;
+            @ShootAction.performed -= instance.OnShootAction;
+            @ShootAction.canceled -= instance.OnShootAction;
         }
 
         public void RemoveCallbacks(IPlayerMapActions instance)
@@ -346,5 +386,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnMovementAction(InputAction.CallbackContext context);
         void OnCameraMovementAction(InputAction.CallbackContext context);
         void OnJumpAction(InputAction.CallbackContext context);
+        void OnShootAction(InputAction.CallbackContext context);
     }
 }

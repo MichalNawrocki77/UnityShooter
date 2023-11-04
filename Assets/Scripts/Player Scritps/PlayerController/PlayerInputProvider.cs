@@ -5,51 +5,33 @@ using UnityEngine;
 
 using static UnityEngine.InputSystem.InputAction;
 
-public class PlayerInputProvider : MonoBehaviour, IInputProvider
+public class PlayerInputProvider : BaseInputProvider
 {
-    private PlayerInputActions PlayerInputActions;
+    private PlayerInputActions playerInputActions;
 
-    public Vector2 MovementInput { get; private set; }
+    public override Vector2 MovementInput { get; protected set; }
 
-    public Vector2 CameraDeltaInput { get; private set; }
-    public event Action OnJumpPressed;
+    public override Vector2 CameraDeltaInput { get; protected set; }
 
-
-
-
-    // Start is called before the first frame update
-    void Awake()
+	void Awake()
     {
-        PlayerInputActions = new PlayerInputActions();
-        PlayerInputActions.PlayerMap.Enable();
+        playerInputActions = new PlayerInputActions();
+        playerInputActions.PlayerMap.Enable();
 
-        PlayerInputActions.PlayerMap.CameraMovementAction.performed += CameraMovementAction_performed;
-        PlayerInputActions.PlayerMap.MovementAction.performed += MovementAction_performed;
-        PlayerInputActions.PlayerMap.JumpAction.performed += JumpAction_performed;
+        playerInputActions.PlayerMap.CameraMovementAction.performed += CameraMovementAction_performed;
+        playerInputActions.PlayerMap.MovementAction.performed += MovementAction_performed;
+        playerInputActions.PlayerMap.JumpAction.performed += JumpAction_performed;
+		playerInputActions.PlayerMap.ShootAction.performed += ShootAction_performed;
+
+		
     }
 
-    private void JumpAction_performed(CallbackContext obj)
-    {
-        if(OnJumpPressed is null)
-        {
-            Debug.Log("Null at PlayerInputProvider.OnJumpPressed!!!");
-            return;
-        }
-        OnJumpPressed.Invoke();
-    }
-    public void SetJumpActionActive(bool isActive)
-    {
-        if (isActive)
-        {
-            PlayerInputActions.PlayerMap.JumpAction.Enable();
-        }
-        else if (!isActive)
-        {
-            PlayerInputActions.PlayerMap.JumpAction.Disable();
-        }
-    }
+	private void ShootAction_performed(CallbackContext obj)
+	{
+		InvokeShoot();
+	}
 
-    private void MovementAction_performed(CallbackContext obj)
+	private void MovementAction_performed(CallbackContext obj)
     {
         MovementInput = obj.ReadValue<Vector2>();
     }
@@ -58,4 +40,19 @@ public class PlayerInputProvider : MonoBehaviour, IInputProvider
     {
         CameraDeltaInput = obj.ReadValue<Vector2>();
     }
+	private void JumpAction_performed(CallbackContext obj)
+	{
+		InvokeJump();
+	}
+	public void SetJumpActionActive(bool isActive)
+	{
+		if (isActive)
+		{
+			playerInputActions.PlayerMap.JumpAction.Enable();
+		}
+		else if (!isActive)
+		{
+			playerInputActions.PlayerMap.JumpAction.Disable();
+		}
+	}
 }

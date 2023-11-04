@@ -5,7 +5,7 @@ using UnityEngine.Windows;
 
 public class MovementController : MonoBehaviour
 {
-    public IInputProvider Input { get; private set; }
+    public BaseInputProvider Input { get; private set; }
 
     public StateMachine GroundedStateMachine { get; private set; }
     public State GroundedState { get; private set; }
@@ -38,12 +38,12 @@ public class MovementController : MonoBehaviour
     }
     void Start()
     {
-        Input = GetComponent<IInputProvider>();
+        Input = GetComponent<BaseInputProvider>();
         if (Input is null)
         {
             Debug.Log("CameraController Component Could not find IInputProvider. Please attach a component that inherits from IInputProvider interface :)");
         }
-        Input.OnJumpPressed += Jump;
+        Input.OnJumpProvided += Jump;
 
         RbToMove = GetComponentInParent<Rigidbody>();
         if (RbToMove is null)

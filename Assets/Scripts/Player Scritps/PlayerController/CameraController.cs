@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    IInputProvider input;
+    BaseInputProvider input;
     
 
     [SerializeField] Transform VerticalCamera;
@@ -23,7 +23,7 @@ public class CameraController : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
 
-        input = GetComponent<IInputProvider>();
+        input = GetComponent<BaseInputProvider>();
         if(input is null)
         {
             Debug.Log("CameraController Component Could not find IInputProvider. Please attach a component that inherits from IInputProvider interface :)");
