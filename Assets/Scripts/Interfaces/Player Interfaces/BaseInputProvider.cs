@@ -12,6 +12,7 @@ public abstract class BaseInputProvider : MonoBehaviour
 	{
 		this.OnJumpProvided?.Invoke();
 	}
+	//public abstract void SetJumpActionActive(bool isActive);
 	public event Action OnShootProvided;
 	protected virtual void InvokeShoot()
 	{

@@ -16,12 +16,13 @@ public class GroundedState : State
     public override void Enter()
     {
         movementController.RbToMove.drag = movementController.groundedDrag;
+
 		movementController.Input.OnJumpProvided += movementController.Jump;
 	}
 
     public override void Exit()
     {
-        movementController.Input.OnJumpProvided -= movementController.Jump;
+		movementController.Input.OnJumpProvided -= movementController.Jump;
 	}
 
     public override void LogicUpdate()

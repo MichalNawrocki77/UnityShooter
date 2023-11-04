@@ -1,6 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+
+using Unity.VisualScripting;
+
 using UnityEngine;
 
 using static UnityEngine.InputSystem.InputAction;
@@ -11,7 +14,7 @@ public class PlayerInputProvider : BaseInputProvider
 
     public override Vector2 MovementInput { get; protected set; }
 
-    public override Vector2 CameraDeltaInput { get; protected set; }
+	public override Vector2 CameraDeltaInput { get; protected set; }
 
 	void Awake()
     {
@@ -25,6 +28,22 @@ public class PlayerInputProvider : BaseInputProvider
 
 		
     }
+	private void FixedUpdate()
+	{
+		//switch(playerInputActions.PlayerMap.ShootAction.phase)
+		//{
+		//	case UnityEngine.InputSystem.InputActionPhase.Started:
+		//		Debug.Log("Started");
+		//	break;
+
+		//	case UnityEngine.InputSystem.InputActionPhase.Performed:
+		//		Debug.Log("Performed");
+		//		break;
+		//	case UnityEngine.InputSystem.InputActionPhase.Canceled:
+		//		Debug.Log("Cancelled");
+		//		break;
+		//}
+	}
 
 	private void ShootAction_performed(CallbackContext obj)
 	{
@@ -44,15 +63,16 @@ public class PlayerInputProvider : BaseInputProvider
 	{
 		InvokeJump();
 	}
-	public void SetJumpActionActive(bool isActive)
-	{
-		if (isActive)
-		{
-			playerInputActions.PlayerMap.JumpAction.Enable();
-		}
-		else if (!isActive)
-		{
-			playerInputActions.PlayerMap.JumpAction.Disable();
-		}
-	}
+
+	//public override void SetJumpActionActive(bool isActive)
+	//{
+	//	if (isActive)
+	//	{
+	//		playerInputActions.PlayerMap.JumpAction.Enable();
+	//	}
+	//	else if (!isActive)
+	//	{
+	//		playerInputActions.PlayerMap.JumpAction.Disable();
+	//	}
+	//}
 }

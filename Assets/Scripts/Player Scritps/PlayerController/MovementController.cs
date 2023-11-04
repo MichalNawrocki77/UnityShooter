@@ -34,8 +34,8 @@ public class MovementController : MonoBehaviour
     {
         GroundedStateMachine = new StateMachine();
         GroundedState = new GroundedState(this, GroundedStateMachine);
-        AerialState = new AerialState(this, GroundedStateMachine);        
-    }
+        AerialState = new AerialState(this, GroundedStateMachine);
+	}
     void Start()
     {
         Input = GetComponent<BaseInputProvider>();
@@ -43,7 +43,6 @@ public class MovementController : MonoBehaviour
         {
             Debug.Log("CameraController Component Could not find IInputProvider. Please attach a component that inherits from IInputProvider interface :)");
         }
-        Input.OnJumpProvided += Jump;
 
         RbToMove = GetComponentInParent<Rigidbody>();
         if (RbToMove is null)
