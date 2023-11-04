@@ -7,15 +7,20 @@ public abstract class BaseInputProvider : MonoBehaviour
 {
 	public abstract Vector2 MovementInput{ get; protected set; }
 	public abstract Vector2 CameraDeltaInput { get; protected set; }
-	public event Action OnJumpProvided;
+	public event Action JumpProvided;
 	protected virtual void InvokeJump()
 	{
-		this.OnJumpProvided?.Invoke();
+		this.JumpProvided?.Invoke();
 	}
 	//public abstract void SetJumpActionActive(bool isActive);
-	public event Action OnShootProvided;
+	public event Action ShootProvided;
 	protected virtual void InvokeShoot()
 	{
-		this.OnShootProvided?.Invoke();
+		this.ShootProvided?.Invoke();
+	}
+	public event Action ShootFinished;
+	protected virtual void InvokeShootFinished()
+	{
+		this.ShootFinished?.Invoke();
 	}
 }

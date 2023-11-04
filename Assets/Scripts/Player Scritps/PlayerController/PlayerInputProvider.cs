@@ -24,30 +24,44 @@ public class PlayerInputProvider : BaseInputProvider
         playerInputActions.PlayerMap.CameraMovementAction.performed += CameraMovementAction_performed;
         playerInputActions.PlayerMap.MovementAction.performed += MovementAction_performed;
         playerInputActions.PlayerMap.JumpAction.performed += JumpAction_performed;
+		playerInputActions.PlayerMap.ShootAction.started += ShootAction_started;
 		playerInputActions.PlayerMap.ShootAction.performed += ShootAction_performed;
+		playerInputActions.PlayerMap.ShootAction.canceled += ShootAction_canceled;
 
-		
-    }
-	private void FixedUpdate()
-	{
-		//switch(playerInputActions.PlayerMap.ShootAction.phase)
-		//{
-		//	case UnityEngine.InputSystem.InputActionPhase.Started:
-		//		Debug.Log("Started");
-		//	break;
 
-		//	case UnityEngine.InputSystem.InputActionPhase.Performed:
-		//		Debug.Log("Performed");
-		//		break;
-		//	case UnityEngine.InputSystem.InputActionPhase.Canceled:
-		//		Debug.Log("Cancelled");
-		//		break;
-		//}
 	}
 
+
+
+	//private void FixedUpdate()
+	//{
+	//	switch (playerInputActions.PlayerMap.ShootAction.phase)
+	//	{
+	//		case UnityEngine.InputSystem.InputActionPhase.Started:
+	//			Debug.Log("Started");
+	//			break;
+
+	//		case UnityEngine.InputSystem.InputActionPhase.Performed:
+	//			Debug.Log("Performed");
+	//			break;
+	//		case UnityEngine.InputSystem.InputActionPhase.Canceled:
+	//			Debug.Log("Cancelled");
+	//			break;
+	//	}
+	//}
+	private void ShootAction_started(CallbackContext obj)
+	{
+		Debug.Log("Started");
+	}
 	private void ShootAction_performed(CallbackContext obj)
 	{
 		InvokeShoot();
+		Debug.Log("Performed");
+	}
+	private void ShootAction_canceled(CallbackContext obj)
+	{
+		InvokeShootFinished();
+		Debug.Log("Cancelled");
 	}
 
 	private void MovementAction_performed(CallbackContext obj)

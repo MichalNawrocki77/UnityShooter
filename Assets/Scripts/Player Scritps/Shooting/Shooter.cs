@@ -23,7 +23,16 @@ public class Shooter : MonoBehaviour
 	{
 		shotDelay = 1 / (rpm / 60);
 
-		inputProvider.OnShootProvided += Shoot;
+		inputProvider.ShootProvided += OnShootProvided;
+		inputProvider.ShootFinished += OnShootFinished;
+	}
+	void OnShootProvided()
+	{
+		InvokeRepeating(nameof(Shoot), 0f, shotDelay);
+	}
+	void OnShootFinished()
+	{
+		CancelInvoke(nameof(Shoot));
 	}
 
 	void Shoot()
