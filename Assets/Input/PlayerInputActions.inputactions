@@ -39,6 +39,15 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ReloadAction",
+                    "type": "Button",
+                    "id": "c677f018-cdd3-4ab3-8042-92b78bf6d5bc",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
                     "initialStateCheck": false
                 }
             ],
@@ -172,6 +181,28 @@
                     "processors": "",
                     "groups": "GamePad",
                     "action": "ShootAction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a5129785-1d79-4f21-a395-13d469a5ce9d",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardAndMouse",
+                    "action": "ReloadAction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5a0039b6-28a3-4e8f-b862-20cf2540290e",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "GamePad",
+                    "action": "ReloadAction",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

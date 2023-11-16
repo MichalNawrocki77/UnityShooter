@@ -10,7 +10,7 @@ using static UnityEngine.InputSystem.InputAction;
 
 public class PlayerInputProvider : BaseInputProvider
 {
-    private PlayerInputActions playerInputActions;
+    public PlayerInputActions playerInputActions { get; private set; }
 
     public override Vector2 MovementInput { get; protected set; }
 
@@ -25,17 +25,31 @@ public class PlayerInputProvider : BaseInputProvider
         playerInputActions.PlayerMap.MovementAction.performed += MovementAction_performed;
         playerInputActions.PlayerMap.JumpAction.performed += JumpAction_performed;
 		playerInputActions.PlayerMap.ShootAction.performed += ShootAction_performed;
+		//playerInputActions.PlayerMap.ShootAction.started += DebugShootAction_started;
 		playerInputActions.PlayerMap.ShootAction.canceled += ShootAction_canceled;
-
+		playerInputActions.PlayerMap.ReloadAction.performed += ReloadAction_performed;
 
 	}
+
+	//private void DebugShootAction_started(CallbackContext obj)
+	//{
+	//	Debug.Log("ShootActionStarted()");
+	//}
+
+	private void ReloadAction_performed(CallbackContext obj)
+	{
+		InvokeReloadProvided();
+	}
+
 	private void ShootAction_performed(CallbackContext obj)
 	{
-		InvokeShoot();
+		InvokeShootProvided();
+		Debug.Log("ShootActionPerformed()");
 	}
 	private void ShootAction_canceled(CallbackContext obj)
 	{
 		InvokeShootFinished();
+		Debug.Log("ShootActionCanceled()");
 	}
 
 	private void MovementAction_performed(CallbackContext obj)
@@ -49,7 +63,7 @@ public class PlayerInputProvider : BaseInputProvider
     }
 	private void JumpAction_performed(CallbackContext obj)
 	{
-		InvokeJump();
+		InvokeJumpProvided();
 	}
 
 	//public override void SetJumpActionActive(bool isActive)

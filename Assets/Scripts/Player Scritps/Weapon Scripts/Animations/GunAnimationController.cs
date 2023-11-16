@@ -9,6 +9,7 @@ public class AnimationsController : MonoBehaviour
 {
 	Animator animator;
 	[SerializeField] MovementController movementProvider;
+	[SerializeField] BaseInputProvider inputProvider;
 	private void Start()
 	{
 		animator = GetComponent<Animator>();
@@ -16,7 +17,14 @@ public class AnimationsController : MonoBehaviour
 		{
 			Debug.Log("Gun Animator is null");
 		}
+		inputProvider.ReloadProvided += OnReloadProvided;
 	}
+
+	private void OnReloadProvided()
+	{
+		animator.SetTrigger("ReloadTrig");
+	}
+
 	private void Update()
 	{
 		UpdateSpeedParam();
